@@ -6,8 +6,9 @@ import { HomeView } from './views'
 class App extends React.Component {
     render() {
         return (
-            <Router>
+            <Router className="">
                 <Route exact path="/" component={HomeView}/>
+                <Route exact path="/createForm"/>
                 <Route exact path="/form/:id"/>
                 <Route exact path="/edit/:id"/>
             </Router>
