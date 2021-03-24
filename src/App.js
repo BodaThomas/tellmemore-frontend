@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.css'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { HomeView, CreateFormView } from './views'
+import { HomeView, CreateFormView, FormView } from './views'
 import { NavBar } from './components'
 
 class App extends React.Component {
@@ -13,7 +13,7 @@ class App extends React.Component {
                     <Switch>
                         <Route exact path="/" component={HomeView}/>
                         <Route exact path="/createForm" component={CreateFormView}/>
-                        <Route exact path="/form/:formId"/>
+                        <Route exact path="/form/:formId" component={FormView}/>
                         <Route exact path="/edit/:formId" component={CreateFormView}/>
                     </Switch>
                 </div>
