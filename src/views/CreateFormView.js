@@ -47,10 +47,27 @@ class CreateFormView extends React.Component {
             this.setState({name: e.target[0].value})
     }
 
+    handleSaveQuestion = (questionData, i) => {
+        let data = this.state.data
+
+        data[i - 1] = questionData
+        this.setState({data: data})
+    }
+
+    handleDeleteQuestion = (i) => {
+        let data = this.state.data
+
+        data.splice(i - 1, 1)
+        this.setState({data: data})
+    }
+
     handleSave = () => {
         if (this.state.isNewForm) {
-            API.post('/createForm', {name: this.state.name, data: this.state.data})
-                .then(json => console.log(json))
+            if (this.state.name)
+                API.post('/createForm', {name: this.state.name, data: this.state.data})
+                    .then(json => console.log(json))
+            else
+                alert('Vous devez ajouter un nom à ce formulaire et le valider, avant de sauvegarder.')
         } else {
             API.post('/updateForm', {id: this.props.match.params.formId, name: this.state.name, data: this.state.data})
         }
@@ -104,7 +121,7 @@ class CreateFormView extends React.Component {
                                     {
                                         this.state.data.map((e, i) => {
                                             console.log(i)
-                                            return <EditorQuestion key={i} data={e} number={i + 1}/>
+                                            return <EditorQuestion key={i} data={e} number={i + 1} handler={this.handleSaveQuestion} handleDelete={this.handleDeleteQuestion}/>
                                         })
                                     }
                                 </div>
