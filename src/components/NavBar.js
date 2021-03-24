@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import Logo from '../logoTellMeMore.svg'
 
 class NavBar extends React.Component {
@@ -9,7 +10,9 @@ class NavBar extends React.Component {
     render() {
         return (
             <div className="fixed top-0 w-full h-20 border-b bg-white pl-14 pt-5 inline-block">
-                <img src={Logo} className="" />
+                <Link to="/">
+                    <img src={Logo}/>
+                </Link>
             </div>
         )
     }
