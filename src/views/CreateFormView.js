@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import API from '../api'
 import { ChevronLeft, Check, Trash, FileText, Star } from 'react-feather'
 import { Link } from 'react-router-dom'
-import { EditorQuestion } from '../components'
+import { EditorQuestion, Answer } from '../components'
 
 class CreateFormView extends React.Component {
     constructor(props) {
@@ -14,6 +14,7 @@ class CreateFormView extends React.Component {
             mode: 'questions',
             name: null,
             data: [],
+            results: [],
             needSave: false
         }
     }
@@ -23,6 +24,9 @@ class CreateFormView extends React.Component {
             API.get('/getFormData?id=' + this.props.match.params.formId)
                 .then(json => json.data)
                 .then(data => this.setState({name: data.name, data: data.data, isNewForm: false}))
+            API.get('/getResults?formId=' + this.props.match.params.formId)
+                .then(json => json.data)
+                .then(data => this.setState({results: data}))
         } else {
             this.setState({isNewForm: true})
         }
@@ -118,42 +122,61 @@ class CreateFormView extends React.Component {
                         </div>
                     </div>
                     <div className="bg-green-50 w-full min-h-full rounded-md mt-5 p-10">
-                        <div className="mb-14 inline-flex">
+                        <div className="inline-flex">
                             <h1 onClick={() => this.setState({mode: 'questions'})} className={'text-xl font-bold cursor-pointer mr-14 ' + (this.state.mode === 'questions' ? 'text-black underline' : 'text-green-500')}>Questions</h1>
-                            <h1 onClick={() => this.setState({mode: 'answers'})} className={'text-xl font-bold cursor-pointer ' + (this.state.mode === 'answers' ? 'text-black underline' : 'text-green-500')}>Réponses</h1>
+                            <h1 onClick={() => this.setState({mode: 'results'})} className={'text-xl font-bold cursor-pointer ' + (this.state.mode === 'results' ? 'text-black underline' : 'text-green-500')}>Réponses</h1>
                         </div>
-                        <div className="space-y-10 mb-14">
-                            { this.state.isNewForm || (this.state.data && !this.state.data.length) ?
-                                <div className="text-2xl font-bold text-center text-green-500">
-                                    <h1>Ce formulaire est vide</h1>
+                        {
+                            this.state.mode === 'questions' ?
+                                <div className="pt-10">
+                                    <div className="space-y-10 mb-14">
+                                        { this.state.isNewForm || (this.state.data && !this.state.data.length) ?
+                                            <div className="text-2xl font-bold text-center text-green-500">
+                                                <h1>Ce formulaire est vide</h1>
+                                            </div> :
+                                            <div className="space-y-10">
+                                                {
+                                                    this.state.data.map((e, i) => <EditorQuestion key={i} data={e} number={i + 1} handler={this.handleSaveQuestion} handleDelete={this.handleDeleteQuestion}/>)
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                    <div>
+                                        <button onClick={this.handleAddTextQuestion} className="border p-3 rounded-md font-bold border-green-500 text-green-500 inline-flex focus:outline-none mr-4">
+                                            <FileText className="mr-2"/> Ajouter une question &quot;Texte&quot;
+                                        </button>
+                                        <button onClick={this.handleAddNoteQuestion} className="border p-3 rounded-md font-bold border-green-500 text-green-500 inline-flex focus:outline-none">
+                                            <Star className="mr-2"/> Ajouter une question &quot;Note&quot;
+                                        </button>
+                                    </div>
+                                    <div className="text-right">
+                                        {
+                                            this.state.needSave ?
+                                                <div className="inline-flex mr-4 text-red-500">
+                                                    Certaines modifications n&apos;ont pas été sauvegardées
+                                                </div> :
+                                                null
+                                        }
+                                        <button onClick={this.handleSave} className="border p-3 text-white bg-green-500 border-green-500 rounded-md font-bold align-bottom focus:outline-none">
+                                            Sauvegarder
+                                        </button>
+                                    </div>
                                 </div> :
-                                <div className="space-y-10">
-                                    {
-                                        this.state.data.map((e, i) => <EditorQuestion key={i} data={e} number={i + 1} handler={this.handleSaveQuestion} handleDelete={this.handleDeleteQuestion}/>)
-                                    }
+                                <div>
+                                    <div className="space-y-10 mb-14">
+                                        { this.state.isNewForm || (this.state.results && !this.state.results.length) ?
+                                            <div className="text-2xl font-bold text-center text-green-500">
+                                                <h1>Ce formulaire n&apos;a aucune réponses</h1>
+                                            </div> :
+                                            <div className="divide-y space-y-10 divide-green-500">
+                                                {
+                                                    this.state.results.map((e, i) => <Answer key={i} result={e}/>)
+                                                }
+                                            </div>
+                                        }
+                                    </div>
                                 </div>
-                            }
-                        </div>
-                        <div>
-                            <button onClick={this.handleAddTextQuestion} className="border p-3 rounded-md font-bold border-green-500 text-green-500 inline-flex focus:outline-none mr-4">
-                                <FileText className="mr-2"/> Ajouter une question &quot;Texte&quot;
-                            </button>
-                            <button onClick={this.handleAddNoteQuestion} className="border p-3 rounded-md font-bold border-green-500 text-green-500 inline-flex focus:outline-none">
-                                <Star className="mr-2"/> Ajouter une question &quot;Note&quot;
-                            </button>
-                        </div>
-                        <div className="text-right">
-                            {
-                                this.state.needSave ?
-                                    <div className="inline-flex mr-4 text-red-500">
-                                        Certaines modifications n&apos;ont pas été sauvegardées
-                                    </div> :
-                                    null
-                            }
-                            <button onClick={this.handleSave} className="border p-3 text-white bg-green-500 border-green-500 rounded-md font-bold align-bottom focus:outline-none">
-                                Sauvegarder
-                            </button>
-                        </div>
+                        }
                     </div>
                 </div>
             </div>

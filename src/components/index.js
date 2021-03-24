@@ -4,6 +4,7 @@ import NavBar from './NavBar'
 import NoteQuestion from './NoteQuestion'
 import TextQuestion from './TextQuestion'
 import EditorQuestion from './EditorQuestion'
+import Answer from './Answer'
 
 export {
     FormDashBlock,
@@ -11,5 +12,6 @@ export {
     NavBar,
     NoteQuestion,
     TextQuestion,
-    EditorQuestion
+    EditorQuestion,
+    Answer
 }
