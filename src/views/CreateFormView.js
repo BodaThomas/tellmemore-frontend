@@ -107,7 +107,7 @@ class CreateFormView extends React.Component {
         return (
             <div className="min-h-screen">
                 <div className="max-w-7xl m-auto">
-                    <div className="grid grid-cols-3">
+                    <div className="grid grid-cols-3 title">
                         <Link to="/" className="inline-flex pt-3">
                             <ChevronLeft/>
                             <p className="ml-4 font-bold">Mes formulaires</p>
@@ -141,7 +141,7 @@ class CreateFormView extends React.Component {
                                             </div>
                                         }
                                     </div>
-                                    <div>
+                                    <div className="title">
                                         <button onClick={this.handleAddTextQuestion} className="border p-3 rounded-md font-bold border-green-500 text-green-500 inline-flex focus:outline-none mr-4">
                                             <FileText className="mr-2"/> Ajouter une question &quot;Texte&quot;
                                         </button>
@@ -157,7 +157,7 @@ class CreateFormView extends React.Component {
                                                 </div> :
                                                 null
                                         }
-                                        <button onClick={this.handleSave} className="border p-3 text-white bg-green-500 border-green-500 rounded-md font-bold align-bottom focus:outline-none">
+                                        <button onClick={this.handleSave} className="border p-3 text-white bg-green-500 border-green-500 rounded-md font-bold align-bottom focus:outline-none title">
                                             Sauvegarder
                                         </button>
                                     </div>

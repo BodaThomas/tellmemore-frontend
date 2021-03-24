@@ -14,11 +14,11 @@ class FormDashBlock extends React.Component {
         console.log(this.props.data)
         return (
             <div className="grid grid-rows-3 bg-gray-100 rounded-md h-44 p-4 w-72 gap-2 overflow-hidden">
-                <p className="row-span-1 text-xs text-left self-start">FORMULAIRE</p>
-                <div className="row-span-3 text-left text-md font-bold self-center overflow-auto">
+                <p className="row-span-1 text-xs text-left self-start title">FORMULAIRE</p>
+                <div className="row-span-3 text-left text-md font-bold self-center overflow-auto title">
                     {this.props.data.name}
                 </div>
-                <div className="row-span-1 self-end text-right mb-1">
+                <div className="row-span-1 self-end text-right mb-1 title">
                     <Link to={'/edit/' + this.props.data._id} className="font-bold text-green-500 text-xs mr-2">Editer</Link>
                     <Link to={'/form/' + this.props.data._id} className="font-bold text-white bg-green-500 p-2.5 rounded-md text-xs m-2 mr-0">Répondre</Link>
                 </div>
