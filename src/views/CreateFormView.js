@@ -13,7 +13,8 @@ class CreateFormView extends React.Component {
             isNewForm: false,
             mode: 'questions',
             name: null,
-            data: []
+            data: [],
+            needSave: false
         }
     }
 
@@ -31,45 +32,54 @@ class CreateFormView extends React.Component {
         let data = this.state.data
 
         data.push({ type: 'text', value: null })
-        this.setState({data: data})
+        this.setState({data: data, needSave: true})
     }
 
     handleAddNoteQuestion = () => {
         let data = this.state.data
 
         data.push({ type: 'note', value: null })
-        this.setState({data: data})
+        this.setState({data: data, needSave: true})
     }
 
     handleSaveTitle = (e) => {
         e.preventDefault()
         if (e.target[0].value)
-            this.setState({name: e.target[0].value})
+            this.setState({name: e.target[0].value, needSave: true})
     }
 
     handleSaveQuestion = (questionData, i) => {
         let data = this.state.data
 
         data[i - 1] = questionData
-        this.setState({data: data})
+        this.setState({data: data, needSave: true})
     }
 
     handleDeleteQuestion = (i) => {
         let data = this.state.data
 
         data.splice(i - 1, 1)
-        this.setState({data: data})
+        this.setState({data: data, needSave: true})
     }
 
     handleSave = () => {
         if (this.state.isNewForm) {
             if (this.state.name)
                 API.post('/createForm', {name: this.state.name, data: this.state.data})
-                    .then(json => console.log(json))
+                    .then(json => json.data)
+                    .then(data => {
+                        console.log(data)
+                        this.setState({needSave: false})
+                    })
             else
                 alert('Vous devez ajouter un nom à ce formulaire et le valider, avant de sauvegarder.')
         } else {
             API.post('/updateForm', {id: this.props.match.params.formId, name: this.state.name, data: this.state.data})
+                .then(json => json.data)
+                .then(data => {
+                    console.log(data)
+                    this.setState({needSave: false})
+                })
         }
     }
 
@@ -119,10 +129,7 @@ class CreateFormView extends React.Component {
                                 </div> :
                                 <div className="space-y-10">
                                     {
-                                        this.state.data.map((e, i) => {
-                                            console.log(i)
-                                            return <EditorQuestion key={i} data={e} number={i + 1} handler={this.handleSaveQuestion} handleDelete={this.handleDeleteQuestion}/>
-                                        })
+                                        this.state.data.map((e, i) => <EditorQuestion key={i} data={e} number={i + 1} handler={this.handleSaveQuestion} handleDelete={this.handleDeleteQuestion}/>)
                                     }
                                 </div>
                             }
@@ -136,6 +143,13 @@ class CreateFormView extends React.Component {
                             </button>
                         </div>
                         <div className="text-right">
+                            {
+                                this.state.needSave ?
+                                    <div className="inline-flex mr-4 text-red-500">
+                                        Certaines modifications n&apos;ont pas été sauvegardées
+                                    </div> :
+                                    null
+                            }
                             <button onClick={this.handleSave} className="border p-3 text-white bg-green-500 border-green-500 rounded-md font-bold align-bottom focus:outline-none">
                                 Sauvegarder
                             </button>
