@@ -21,7 +21,7 @@ class HomeView extends React.Component {
         return (
             <div className="App min-h-screen">
                 <header className="">
-                    <div className=" max-w-4xl m-auto">
+                    <div className="max-w-4xl m-auto">
                         <h1 className="text-left font-bold text-2xl mb-5">
                             Mes formulaires
                         </h1>

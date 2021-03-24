@@ -7,14 +7,14 @@ import { NavBar } from './components'
 class App extends React.Component {
     render() {
         return (
-            <Router className="">
+            <Router>
                 <NavBar/>
                 <div className="pt-32">
                     <Switch>
                         <Route exact path="/" component={HomeView}/>
                         <Route exact path="/createForm" component={CreateFormView}/>
-                        <Route exact path="/form/:id"/>
-                        <Route exact path="/edit/:id"/>
+                        <Route exact path="/form/:formId"/>
+                        <Route exact path="/edit/:formId" component={CreateFormView}/>
                     </Switch>
                 </div>
             </Router>
