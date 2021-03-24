@@ -37,7 +37,7 @@ class EditorQuestion extends React.Component {
                             {this.props.number} - <Star className="ml-1"/>
                         </div>
                 }
-                <input onChange={this.handleChange} defaultValue={this.props.data.value} className="p-1 mr-2 inline-flex rounded-md align-bottom"/>
+                <input onChange={this.handleChange} defaultValue={this.props.data.value} className="p-1 mr-2 inline-flex rounded-md align-bottom w-9/12"/>
                 <div className="inline-flex align-bottom space-x-2 text-right">
                     <button className="p-1 bg-white rounded-md align-bottom"><ChevronUp/></button>
                     <button className="p-1 bg-white rounded-md align-bottom"><ChevronDown/></button>

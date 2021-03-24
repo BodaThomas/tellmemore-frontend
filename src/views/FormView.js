@@ -11,7 +11,7 @@ class FormView extends React.Component {
         super(props)
 
         this.state = {
-            step: 0, //SET TO 0
+            step: null, //SET TO null
             name: null,
             data: [],
             result: [],
@@ -100,7 +100,7 @@ class FormView extends React.Component {
             )
         } else if (this.state.step === 'final') {
             content = (
-                <div className="space-y-4 absolute top-1/2">
+                <div className="space-y-4 text-center">
                     <div className="title text-3xl font-bold">
                         Merci d&apos;avoir répondu à ce formulaire
                     </div>
@@ -120,7 +120,7 @@ class FormView extends React.Component {
             else if (this.state.data[step] && this.state.data[step].type === 'note')
                 input = <NoteQuestion handlerSet={this.handleSetActualValue}/>
             content = (
-                <div className="space-y-4 absolute top-1/2 text-center">
+                <div className="space-y-4 text-center">
                     <div className="text-sm">
                         QUESTION {step + 1}
                     </div>
@@ -151,7 +151,7 @@ class FormView extends React.Component {
                         <p className="ml-4 font-bold">Mes formulaires</p>
                     </Link>
                 </div>
-                <div className="bg-green-50 w-full rounded-md mt-5 p-10" style={{minHeight: 'calc(100vh - 25vh)'}}>
+                <div className="bg-green-50 w-full rounded-md mt-5 p-10 flex justify-center items-center" style={{minHeight: 'calc(100vh - 25vh)'}}>
                     {content}
                 </div>
             </div>

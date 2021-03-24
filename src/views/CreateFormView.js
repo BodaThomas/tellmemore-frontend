@@ -73,7 +73,8 @@ class CreateFormView extends React.Component {
                     .then(json => json.data)
                     .then(data => {
                         console.log(data)
-                        this.setState({needSave: false})
+                        this.setState({needSave: false, isNewForm: false})
+                        window.location.href = '/edit/' + data._id
                     })
             else
                 alert('Vous devez ajouter un nom à ce formulaire et le valider, avant de sauvegarder.')
@@ -113,7 +114,7 @@ class CreateFormView extends React.Component {
                             <p className="ml-4 font-bold">Mes formulaires</p>
                         </Link>
                         <form className="text-center" onSubmit={this.handleSaveTitle}>
-                            <input className="border font-bold bg-white rounded-md p-3 mr-2 align-bottom flex-auto focus:outline-none" placeholder="Nom du formulaire" defaultValue={this.state.name}/>
+                            <input className="border font-bold bg-white rounded-md p-3 mr-2 align-bottom flex-auto focus:outline-none w-3/4" placeholder="Nom du formulaire" defaultValue={this.state.name}/>
                             <button type="submit" className="border p-3 text-green-500 border-green-500 bg-white rounded-md focus:outline-none"><Check/></button>
                         </form>
                         <div className="text-right">
@@ -130,7 +131,7 @@ class CreateFormView extends React.Component {
                             this.state.mode === 'questions' ?
                                 <div className="pt-10">
                                     <div className="space-y-10 mb-14">
-                                        { this.state.isNewForm || (this.state.data && !this.state.data.length) ?
+                                        { (this.state.data && !this.state.data.length) ?
                                             <div className="text-2xl font-bold text-center text-green-500">
                                                 <h1>Ce formulaire est vide</h1>
                                             </div> :
@@ -166,7 +167,7 @@ class CreateFormView extends React.Component {
                                     <div className="space-y-10 mb-14">
                                         { this.state.isNewForm || (this.state.results && !this.state.results.length) ?
                                             <div className="text-2xl font-bold text-center text-green-500">
-                                                <h1>Ce formulaire n&apos;a aucune réponses</h1>
+                                                <h1>Ce formulaire n&apos;a aucune réponse</h1>
                                             </div> :
                                             <div className="divide-y space-y-10 divide-green-500">
                                                 {
